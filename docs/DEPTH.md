@@ -27,6 +27,8 @@
 | TRAP-15 | ug与mg | 静默采信错误值 | 统一mg/L | `app/modules/m2_contract/rules.py` | `tests/test_contract.py::test_contract_unit` |
 | TRAP-19 | 多质控失败 | 静默采信错误值 | 明确优先级 | `app/modules/m6_release/rules.py` | `tests/test_release.py::test_release_priority` |
 | TRAP-26 | 陈旧复测 | 静默采信错误值 | 版本递增 | `app/modules/m7_retest/rules.py` | `tests/test_retest.py::test_retest_stale` |
+| TRAP-27 | 首检记录晚到 | 拿复测冒充首检，或把待补算进失败 | 首检只认version=1，待补单列 | `app/modules/m3_parallel/rules.py` | `tests/test_first_inspection.py::test_pending_when_first_duplicate_missing` |
+| TRAP-28 | 补传重试/失败 | 同一补传重复计入，失败覆盖旧统计 | 内容摘要去重、事务回滚、统计留版 | `app/store.py` | `tests/test_first_inspection.py::test_store_retry_same_supplement_is_idempotent` |
 
 ## 对账规则
 

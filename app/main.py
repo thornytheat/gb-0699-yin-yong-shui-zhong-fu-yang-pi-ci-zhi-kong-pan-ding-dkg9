@@ -39,6 +39,18 @@ def calculate(payload:object=Body(default=None)):
 def list_runs(): return store.history()
 @app.get("/api/runs/{ident}")
 def run_detail(ident:str): return store.get(ident)
+@app.post("/api/supplement")
+def supplement(payload:object=Body(...)):
+    """补传迟到的首检记录；同一内容幂等，失败不覆盖旧统计。"""
+    payload=object_payload(payload)
+    ident=payload.get("id");text=payload.get("text")
+    if not isinstance(ident,str) or not ident: raise BusinessError("SUPPLEMENT","批次编号须为文本")
+    if not isinstance(text,str): raise BusinessError("TEXT","补传内容须为文本")
+    return store.supplement(ident,text)
+@app.get("/api/supplements/{ident}")
+def supplement_list(ident:str): return store.supplements(ident)
+@app.get("/api/stats/{ident}")
+def stats_history(ident:str): return store.stats_history(ident)
 @app.post("/api/review")
 def review(payload:object=Body(...)):
     payload=object_payload(payload)
